@@ -1,6 +1,6 @@
 (ns high-voltage.handlers
   (:require
-    [re-frame.core :refer [reg-event-db ->interceptor]]
+    [re-frame.core :as r :refer [reg-event-db ->interceptor]]
     [high-voltage.db :as db :refer [app-db]]))
 
 (reg-event-db
@@ -18,7 +18,7 @@
   (fn [db [_ value]]
     (assoc db :greeting value)))
 
-(r/reg-event-db
+(reg-event-db
   :set-db
   (fn [db [_  path value]]
     (assoc-in db
@@ -27,8 +27,17 @@
                 path)
               value)))
 
-(r/reg-event-db
-  :state-update
+(reg-event-db
+  :update-db
+  (fn [db [_ path f]]
+    (update-in db
+               (if (keyword? path)
+                 [path]
+                 path)
+               f)))
+
+(reg-event-db
+  :update-f
   (fn [db [_ f]]
     (or (f db)
         db)))
