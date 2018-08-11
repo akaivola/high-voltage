@@ -12,7 +12,8 @@
 
 (figwheel/watch-and-reload
  :websocket-url (str "ws://" env.dev/ip ":3449/figwheel-ws")
- :heads-up-display false
- :jsload-callback #(swap! cnt inc))
-
+ :heads-up-display true
+ :jsload-callback (fn []
+                    (println "Reload")
+                    (swap! cnt inc)))
 (core/init)
