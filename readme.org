@@ -1,0 +1,42 @@
+#+TODO: TODO IN-PROGRESS DONE
+
+* OBD - 2 power meter for Chevrolet Volt / Opel Ampera cars
+
+Implemented using React Native on Expo on ClojureScript on Re-frame.
+
+** Usage
+
+*** Install Expo [[https://docs.expo.io/versions/v15.0.0/introduction/installation.html][XDE and mobile client]]
+  If you don't want to use XDE (not IDE, it stands for Expo Development Tools), you can use
+  [[https://docs.expo.io/versions/v15.0.0/guides/exp-cli.html][exp CLI]].
+
+*** Install npm modules
+
+  #+BEGIN_SRC sh
+  yarn install
+  #+END_SRC
+
+*** Start repl and figwheel
+
+  Start reverse port for figwheel, required for live eval
+  #+BEGIN_SRC sh
+  adb reverse tcp:3449 tcp:3449
+  #+END_SRC
+
+  nREPL:
+  #+BEGIN_SRC sh
+  lein with-profile dev repl
+  #+END_SRC
+
+  Connect to nREPL with your $EDITOR and evaluate:
+  #+BEGIN_SRC clojure
+  (start-figwheel)
+  #+END_SRC
+
+** TODOs
+*** TODO Import OBD libs
+*** TODO Connect to actual OBD
+*** TODO Debug window for OBD data
+*** TODO request and visualize power PIDs from OBD using a timer (first phase)
+*** TODO request multiple PIDs from OBD at once using multi query or whatever it was called
+*** TODO Design user interface for selecting adapter
