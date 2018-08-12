@@ -9,16 +9,18 @@
 (def ReactNative (js/require "react-native"))
 (def Expo (js/require "expo"))
 (def AtExpo (js/require "@expo/vector-icons"))
-(def Font (.-Font Expo))
-(def Ionicons (.-Ionicons AtExpo))
-(def ic (reagent/adapt-react-class Ionicons))
 
-(def text (reagent/adapt-react-class (.-Text ReactNative)))
-(def view (reagent/adapt-react-class (.-View ReactNative)))
-(def image (reagent/adapt-react-class (.-Image ReactNative)))
-(def StyleSheet (.-StyleSheet ReactNative))
-(def touchable-highlight (reagent/adapt-react-class (.-TouchableHighlight ReactNative)))
-(def Alert (.-Alert ReactNative))
+(def Font (oget Expo "Font"))
+(def Ionicons (oget AtExpo "Ionicons"))
+(def StyleSheet (oget ReactNative "StyleSheet"))
+(def Alert (oget ReactNative "Alert"))
+
+(def ic (reagent/adapt-react-class Ionicons))
+(def image (reagent/adapt-react-class (oget ReactNative "Image")))
+(def text (reagent/adapt-react-class (oget ReactNative "Text")))
+(def touchable-highlight (reagent/adapt-react-class (oget ReactNative "TouchableHighlight")))
+(def view (reagent/adapt-react-class (oget ReactNative "View")))
+
 
 (defn alert [title]
   (.alert Alert title))
