@@ -11,6 +11,7 @@
 (def AtExpo (js/require "@expo/vector-icons"))
 
 (def Font (oget Expo "Font"))
+(def Svg (oget Expo "Svg"))
 (def Ionicons (oget AtExpo "Ionicons"))
 (def StyleSheet (oget ReactNative "StyleSheet"))
 (def Alert (oget ReactNative "Alert"))
@@ -21,6 +22,10 @@
 (def touchable-highlight (reagent/adapt-react-class (oget ReactNative "TouchableHighlight")))
 (def view (reagent/adapt-react-class (oget ReactNative "View")))
 
+(def svg (reagent/adapt-react-class Svg))
+(def circle (reagent/adapt-react-class (oget Svg "Circle")))
+(def rect (reagent/adapt-react-class (oget Svg "Rect")))
+(def line (reagent/adapt-react-class (oget Svg "Line")))
 
 (defn alert [title]
   (.alert Alert title))
@@ -37,30 +42,54 @@
   (StyleSheet.create
     (clj->js
       (camelize-keys
-        {:gauges
-         {:width          50
-          :height         200}
-         :gauge
-         {:width            "100%"
-          :height           100
-          :flex-direction   "row"
-          :background-color "green"}
-         :gauge-positive
-         {:width            "100%"
-          :height           25
-          :align-self       "flex-end"
-          :background-color "rgb(0,255,0)"}
-         :gauge-negative
-         {:width            "100%"
-          :height           10
-          :align-self        "flex-start"
-          :background-color "rgb(255,0,0)"}
-         }))))
+        {}))))
 
 (defn v [view-style & components]
   (into
     [view {:style (o/oget+ style (str/camel (name view-style)))}]
     components))
+
+(defn power-bar []
+  (let [kilo-watt 30]
+    [view {:style
+           {:justify-content "center"
+            :align-items     "center"}}
+     [text {:style
+            {:font-family   "open-sans-bold"
+             :font-size     15
+             :margin-bottom 5}}
+      "Power"]
+     [svg {:height 200
+           :width  70}
+      [rect
+       {:x      10
+        :y      0
+        :width  50
+        :height 150
+        :stroke "green"
+        :fill   "white"}]
+
+      (if (pos? kilo-watt)
+        [rect
+         {:x      10
+          :y      (- 100 kilo-watt)
+          :width  50
+          :height kilo-watt
+          :fill   "red"}]
+        [rect
+         {:x      10
+          :y      100
+          :width  50
+          :height (* -1 kilo-watt)
+          :fill   "green"}])
+
+      [line
+       {:x1           0
+        :y1           100
+        :x2           70
+        :y2           100
+        :stroke       "black"
+        :stroke-width 2}]]]))
 
 (defn app []
   [view {:style {:margin 40 :align-items "center"}}
@@ -74,12 +103,9 @@
            :font-family   "open-sans-bold"
            :text-align    "center"}}
     @(subscribe [:get-greeting])]
-   [view [text "foosbars"]]
-   [v :gauges
-    [v :gauge
-     [v :gauge-positive]]
-    [v :gauge
-     [v :gauge-negative]]]
+
+   [power-bar]
+
    #_[ic {:name "ios-arrow-down" :size 60 :color "green"}]
    [touchable-highlight {:style    {:background-color "#999" :padding 10 :border-radius 5}
                          :on-press #(alert "HELLO")}
