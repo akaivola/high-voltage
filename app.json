@@ -3,7 +3,7 @@
     "name": "high-voltage",
     "description": "No description",
     "slug": "high-voltage",
-    "sdkVersion": "28.0.0",
+    "sdkVersion": "29.0.0",
     "version": "1.0.0",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
@@ -15,7 +15,21 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "akaivolahghvltg",
+      "publishBundlePath": "ios/high-voltage/Supporting/shell-app.bundle",
+      "publishManifestPath": "ios/high-voltage/Supporting/shell-app-manifest.json"
+    },
+    "isDetached": true,
+    "detach": {
+      "iosExpoViewUrl": "https://s3.amazonaws.com/exp-exponent-view-code/ios-v2.7.0-sdk29.0.0-de70611d-e42d-4d50-a6a5-2d8eabf6ed72.tar.gz",
+      "androidExpoViewUrl": "https://s3.amazonaws.com/exp-exponent-view-code/android-v2.6.0-sdk29.0.0-2366e226-0c19-4600-aa66-dce75dd474fb.tar.gz"
+    },
+    "scheme": "exp712a15756d7f483d8a629a50fa9d6a60",
+    "android": {
+      "package": "com.akaivola.highvoltage",
+      "publishBundlePath": "android/app/src/main/assets/shell-app.bundle",
+      "publishManifestPath": "android/app/src/main/assets/shell-app-manifest.json"
     }
   }
 }
