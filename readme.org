@@ -16,25 +16,85 @@ Implemented using React Native on Expo on ClojureScript on Re-frame.
   yarn install
   #+END_SRC
 
-*** Start repl and figwheel
+*** Install react-native command
+  #+BEGIN_SRC sh
+  npm install -g react-native-cli
+  react-native link
+  #+END_SRC
 
-  Start reverse port for figwheel, required for live eval
+*** Install Android SDK, NDK, Platform tools and accept licenses
+
+  #+BEGIN_SRC sh
+  brew tap homebrew/cask
+  brew cask install android-ndk
+  brew cask install android-platform-tools
+  brew cask install android-sdk
+  #+END_SRC
+
+  Add env vars to .bashrc / .zshrc:
+  #+BEGIN_SRC sh
+  export ANDROID_SDK_ROOT="/usr/local/share/android-sdk"
+  export ANDROID_HOME=$ANDROID_SDK_ROOT
+  export ANDROID_NDK_HOME="/usr/local/share/android-ndk"'
+  #+END_SRC
+
+  Accept licenses:
+  #+BEGIN_SRC sh
+  sdkmanager --licenses
+  #+END_SRC
+
+** How to develop with repl and figwheel
+
+  Plug in phone with a USB cable, development powers need to be unlocked
+
+  Open XDE and click "Open existing project..."
+
+*** Start and run Android project (install all the android sdk/ndk/tools and licenses first, see above):
+  #+BEGIN_SRC sh
+  cd android
+  ./gradlew installDevMinSdkDevKernelDebug
+  #+END_SRC
+
+*** Start reverse port for figwheel, required for live eval
   #+BEGIN_SRC sh
   adb reverse tcp:3449 tcp:3449
   #+END_SRC
 
-  nREPL:
+*** nREPL:
   #+BEGIN_SRC sh
   lein with-profile dev repl
   #+END_SRC
 
-  Connect to nREPL with your $EDITOR and evaluate:
+*** Connect to nREPL with your $EDITOR and evaluate:
   #+BEGIN_SRC clojure
   (start-figwheel)
   #+END_SRC
 
+** Notes
+
+*** Adding native libraries
+
+  Libraries requiring linking use [[https://docs.expo.io/versions/latest/guides/expokit.html][ExpoKit]]
+
+  Install ExpoKit:
+  #+BEGIN_SRC sh
+  exp detach
+  #+END_SRC
+
+  Install and link:
+  #+BEGIN_SRC sh
+  npm install -g react-native-cli
+  react-native link
+  #+END_SRC
+
+  Start and run Android project (first run will download the internet):
+  #+BEGIN_SRC sh
+  cd android
+  ./gradlew installDevMinSdkDevKernelDebug
+  #+END_SRC
+
 ** TODOs
-*** TODO Import OBD libs
+*** IN-PROGRESS Import OBD libs
 *** TODO Connect to actual OBD
 *** TODO Debug window for OBD data
 *** TODO request and visualize power PIDs from OBD using a timer (first phase)
