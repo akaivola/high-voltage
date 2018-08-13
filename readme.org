@@ -16,12 +16,6 @@ Implemented using React Native on Expo on ClojureScript on Re-frame.
   yarn install
   #+END_SRC
 
-*** Install react-native command
-  #+BEGIN_SRC sh
-  npm install -g react-native-cli
-  react-native link
-  #+END_SRC
-
 *** Install Android SDK, NDK, Platform tools and accept licenses
 
   #+BEGIN_SRC sh
@@ -43,13 +37,28 @@ Implemented using React Native on Expo on ClojureScript on Re-frame.
   sdkmanager --licenses
   #+END_SRC
 
+*** Install react-native command
+
+  #+BEGIN_SRC sh
+  npm install -g react-native-cli
+  react-native link
+  #+END_SRC
+
+
 ** How to develop with repl and figwheel
 
   Plug in phone with a USB cable, development powers need to be unlocked
 
   Open XDE and click "Open existing project..."
 
-*** Start and run Android project (install all the android sdk/ndk/tools and licenses first, see above):
+*** Start and run Android project :
+  install all the android sdk/ndk/tools and licenses first, see above.
+
+**** Patch react-native-obd2 to newest SDK
+
+    1. edit node_modules/react-native-obd2/android/src/main/java/com/jetbridge/reactobd2/ReactNativeOBD2Package.java
+    2. delete method createJSModules()
+
   #+BEGIN_SRC sh
   cd android
   ./gradlew installDevMinSdkDevKernelDebug
