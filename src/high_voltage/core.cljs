@@ -1,10 +1,12 @@
 (ns high-voltage.core
-    (:require [reagent.core :as reagent :refer [atom]]
-              [re-frame.core :as r :refer [subscribe dispatch dispatch-sync]]
-              [oops.core :as o :refer [oget]]
-              [high-voltage.handlers]
-              [cuerdas.core :as str]
-              [high-voltage.subs]))
+  (:require
+   [reagent.core :as reagent :refer [atom]]
+   [re-frame.core :as r :refer [subscribe dispatch dispatch-sync]]
+   [oops.core :as o :refer [oget]]
+   [high-voltage.handlers]
+   [high-voltage.obdii :as obdii]
+   [cuerdas.core :as str]
+   [high-voltage.subs]))
 
 (def ReactNative (js/require "react-native"))
 (def Expo (js/require "expo"))
@@ -50,7 +52,7 @@
     components))
 
 (defn power-bar []
-  (let [kilo-watt 30]
+  (let [kilo-watt 0]
     [view {:style
            {:justify-content "center"
             :align-items     "center"}}
