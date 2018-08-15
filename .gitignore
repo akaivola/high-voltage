@@ -20,3 +20,4 @@ env/dev/env/index.cljs
 yarn.lock
 android/app/build
 android/.gradle
+.emacs.desktop
