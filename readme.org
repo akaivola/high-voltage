@@ -1,8 +1,16 @@
 #+TODO: TODO IN-PROGRESS DONE
 
-* OBD - 2 power meter for Chevrolet Volt / Opel Ampera cars
+* OBD/Bluetooth realtime power meter and visualizer for Chevrolet Volt / Opel Ampera cars
 
-Implemented using React Native on Expo on ClojureScript on Re-frame.
+Goal: To display a live visualization of the power used (in kW) by the electric drivetrain of the car.
+
+Secondary goals: Add more features and data visualization
+
+Implemented using Re-frame on ClojureScript on Expo on React Native.
+
+Fully functional REPL to a running program on a real device.
+
+All changes immediately visible on the device without recompiling or restarting.
 
 ** Usage
 
@@ -15,6 +23,11 @@ Implemented using React Native on Expo on ClojureScript on Re-frame.
   #+BEGIN_SRC sh
   yarn install
   #+END_SRC
+
+*** Patch react-native-obd2 to newest SDK
+
+   1. edit node_modules/react-native-obd2/android/src/main/java/com/jetbridge/reactobd2/ReactNativeOBD2Package.java
+   2. delete method createJSModules()
 
 *** Install Android SDK, NDK, Platform tools and accept licenses
 
@@ -47,18 +60,14 @@ Implemented using React Native on Expo on ClojureScript on Re-frame.
 
 ** How to develop with repl and figwheel
 
-  Plug in phone with a USB cable, development powers need to be unlocked
+*** XDE
 
-  Open XDE and click "Open existing project..."
+  1. Plug in phone with a USB cable, development powers need to be unlocked.
+  2. Open XDE and click "Open existing project..."
+  3. Open 'high-voltage' project directory
+  4. Start the project
 
-*** Start and run Android project :
-  install all the android sdk/ndk/tools and licenses first, see above.
-
-**** Patch react-native-obd2 to newest SDK
-
-    1. edit node_modules/react-native-obd2/android/src/main/java/com/jetbridge/reactobd2/ReactNativeOBD2Package.java
-    2. delete method createJSModules()
-
+***  Install a debug version of the app to the phone:
   #+BEGIN_SRC sh
   cd android
   ./gradlew installDevMinSdkDevKernelDebug
@@ -75,9 +84,19 @@ Implemented using React Native on Expo on ClojureScript on Re-frame.
   #+END_SRC
 
 *** Connect to nREPL with your $EDITOR and evaluate:
+
   #+BEGIN_SRC clojure
   (start-figwheel)
   #+END_SRC
+
+*** Start the app
+  On your phone, open Expo. High-voltage should appear on the list. Tap on it.
+
+*** You're all set.
+
+  From this moment on you only need to save your files in $EDITOR and figwheel will immediately evaluate changes in the running program.
+
+  You will also have a fully functional REPL to your program running on your phone. The holy grail of programming.
 
 ** Notes
 
@@ -103,9 +122,10 @@ Implemented using React Native on Expo on ClojureScript on Re-frame.
   #+END_SRC
 
 ** TODOs
-*** IN-PROGRESS Import OBD libs
-*** TODO Connect to actual OBD
-*** TODO Debug window for OBD data
+*** DONE Import OBD libs
+    CLOSED: [2018-08-15 Wed 10:22]
+*** IN-PROGRESS Connect to actual OBD
+*** IN-PROGRESS Debug window for OBD data
 *** TODO request and visualize power PIDs from OBD using a timer (first phase)
 *** TODO request multiple PIDs from OBD at once using multi query or whatever it was called
 *** TODO Design user interface for selecting adapter
