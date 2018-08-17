@@ -2,54 +2,14 @@
   (:require
    [reagent.core :as reagent :refer [atom]]
    [re-frame.core :as r :refer [subscribe dispatch dispatch-sync]]
+   [high-voltage.components :as c :refer [view touchable-highlight Font Expo text svg rect line]]
    [oops.core :as o :refer [oget]]
    [high-voltage.handlers]
    [high-voltage.obdii :as obdii]
    [cuerdas.core :as str]
    [high-voltage.subs]))
 
-(def ReactNative (js/require "react-native"))
-(def Expo (js/require "expo"))
-(def AtExpo (js/require "@expo/vector-icons"))
-
-(def Font (oget Expo "Font"))
-(def Svg (oget Expo "Svg"))
-(def Ionicons (oget AtExpo "Ionicons"))
-(def StyleSheet (oget ReactNative "StyleSheet"))
-(def Alert (oget ReactNative "Alert"))
-
-(def ic (reagent/adapt-react-class Ionicons))
-(def image (reagent/adapt-react-class (oget ReactNative "Image")))
-(def text (reagent/adapt-react-class (oget ReactNative "Text")))
-(def touchable-highlight (reagent/adapt-react-class (oget ReactNative "TouchableHighlight")))
-(def view (reagent/adapt-react-class (oget ReactNative "View")))
-
-(def svg (reagent/adapt-react-class Svg))
-(def circle (reagent/adapt-react-class (oget Svg "Circle")))
-(def rect (reagent/adapt-react-class (oget Svg "Rect")))
-(def line (reagent/adapt-react-class (oget Svg "Line")))
-
-(defn alert [title]
-  (.alert Alert title))
-
-(defn camelize-keys [m]
-  (clojure.walk/postwalk
-    (fn [k]
-      (if (keyword? k)
-        (str/camel (name k))
-        k))
-    m))
-
-(def style
-  (StyleSheet.create
-    (clj->js
-      (camelize-keys
-        {}))))
-
-(defn v [view-style & components]
-  (into
-    [view {:style (o/oget+ style (str/camel (name view-style)))}]
-    components))
+(def style (c/style-sheet {}))
 
 (defn power-bar []
   (let [kilo-watt 0]
@@ -107,6 +67,8 @@
     @(subscribe [:get-greeting])]
 
    [power-bar]
+
+   [obdii/devices]
 
    #_[ic {:name "ios-arrow-down" :size 60 :color "green"}]
    [touchable-highlight {:style    {:background-color "#999" :padding 10 :border-radius 5}
